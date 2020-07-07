@@ -4,8 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>To-Do List</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" integrity="sha512-xA6Hp6oezhjd6LiLZynuukm80f8BoZ3OpcEYaqKoCV3HKQDrYjDE1Gu8ocxgxoXmwmSzM4iqPvCsOkQNiu41GA==" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-    
+    <div id="app" class="app">
+        <div class="app-container">
+            <h1 class="app__title">Todo List</h1>
+
+            <form class="todo-form">
+                <input type="text" class="todo-form__input">
+                <button class="todo-form__submit">
+                    <i class="fas fa-plus-square"></i>
+                </button>
+            </form>
+
+            <ul class="todo-list">
+                <li class="todo-list-item">
+                    <div class="todo-list-item__title">Test Task</div>
+                    <div class="todo-list-item__btn-complited">
+                        <i class="fas fa-check"></i>
+                    </div>
+                    <div class="todo-list-item__btn-trash">
+                        <i class="fas fa-trash"></i>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="./app.js"></script>
 </body>
 </html>
