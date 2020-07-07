@@ -1,8 +1,123 @@
+$color-white: #fff;
+$color-complited: green;
+$color-trash: red;
+
+@mixin defaultFont {
+    font-family: 'Caveat', cursive;
+}
+
+@mixin alignVertical {
+    top: 50%;
+    transform: translate(0, -50%);
+}
+
 * {
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
+    outline: none;
 }
 
-.fas {
-    color: #000;
+body {
+    @include defaultFont();
+}
+
+.app {
+    background: linear-gradient(36deg, #0dd3ff, #0389ff, #1c79c0);
+    background-image: linear-gradient(36deg, #0dd3ff, #0389ff, #1c79c0);
+    min-height: 100vh;
+
+    &-container {
+        max-width: 1300px;
+        margin: auto;
+        padding: 0 15px;
+    }
+
+    &__title {
+        padding-top: 50px;
+        margin-bottom: 50px;
+        color: $color-white;
+        font-size: 70px;
+        text-align: center;
+    }
+}
+
+.todo-form {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 0 auto 50px auto;
+    max-width: 500px;
+
+    &__field {
+        position: relative;
+        flex-grow: 1;
+        max-width: 500px;
+    }
+
+    &__input {
+        @include defaultFont();
+        width: 100%;
+        font-size: 25px;
+        line-height: 25px;
+        padding: 10px 40px 10px 20px;
+        border: none;
+    }
+
+    &__submit {
+        right: 5px;
+        position: absolute;
+        background: none;
+        border: none;
+        @include alignVertical();
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        .fas {
+            color: $color-complited;
+            font-size: 25px;
+        }
+    }
+}
+
+.todo-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    list-style-type: none;
+
+    &-item {
+        display: flex;
+        width: 100%;
+        max-width: 500px;
+
+        &__btn-complited,
+        &__btn-trash {
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            color: $color-white;
+
+            &:hover {
+                cursor: pointer;
+            }   
+        }
+
+        &__btn-complited {
+            background-color: $color-complited;
+        }
+
+        &__btn-trash {
+            background-color: $color-trash;
+        }
+
+        &__title {
+            flex-grow: 1;
+            background-color: $color-white;
+            padding: 10px 20px 10px 20px;
+            font-size: 25px;
+        }
+    }
 }
