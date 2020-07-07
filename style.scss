@@ -64,7 +64,7 @@ body {
         border: none;
     }
 
-    &__submit {
+    &__btn {
         right: 5px;
         position: absolute;
         background: none;
@@ -92,6 +92,10 @@ body {
         display: flex;
         width: 100%;
         max-width: 500px;
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
 
         &__btn-complited,
         &__btn-trash {
