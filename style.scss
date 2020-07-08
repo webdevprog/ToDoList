@@ -121,7 +121,7 @@ body {
 
     &--completed {
         .todo-list-item--completed {
-            display: flex!important;
+            display: flex !important;
         }
 
         .todo-list-item {
@@ -131,7 +131,7 @@ body {
 
     &--uncompleted {
         .todo-list-item--completed {
-            display: none!important;
+            display: none !important;
         }
 
         .todo-list-item {
