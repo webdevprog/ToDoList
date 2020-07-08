@@ -55,13 +55,44 @@ body {
         max-width: 500px;
     }
 
-    &__input {
+    &__input,
+    &__select {
         @include defaultFont();
         width: 100%;
         font-size: 25px;
         line-height: 25px;
-        padding: 10px 40px 10px 20px;
         border: none;
+    }
+
+    &__input {
+        padding: 10px 40px 10px 20px;
+    }
+
+    &__wrapper-select {
+        position: relative;
+        margin-left: 15px;
+
+        &::after {
+            content: '\25BC';
+            position: absolute;
+            line-height: 52px;
+            text-align: center;
+            height: 100%;
+            width: 40px;
+            right: 0;
+            top: 0;
+            background-color: $color-completed;
+            color: $color-white;
+            font-size: 14px;
+            pointer-events: none;
+        }
+    }
+
+    &__select {
+        appearance: none;
+        padding: 10px 20px;
+        height: 100%;
+        cursor: pointer;
     }
 
     &__btn {
@@ -87,6 +118,26 @@ body {
     flex-direction: column;
     align-items: center;
     list-style-type: none;
+
+    &--completed {
+        .todo-list-item--completed {
+            display: flex!important;
+        }
+
+        .todo-list-item {
+            display: none;
+        }
+    }
+
+    &--uncompleted {
+        .todo-list-item--completed {
+            display: none!important;
+        }
+
+        .todo-list-item {
+            display: flex;
+        }
+    }
 
     &-item {
         display: flex;

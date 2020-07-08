@@ -2,10 +2,12 @@
 const todoFormInput = document.querySelector('.todo-form__input');
 const todoFormBtn = document.querySelector('.todo-form__btn');
 const todoList = document.querySelector('.todo-list');
+const todoFilter = document.querySelector('.todo-form__select');
 
 //Events
 todoFormBtn.addEventListener("click", addTask);
 todoList.addEventListener("click", deleteCheck);
+todoFilter.addEventListener("change", filterTasks);
 
 //Function
 function addTask(e) {
@@ -52,5 +54,16 @@ function deleteCheck(e) {
         const todo = item.parentElement;
         todo.classList.add('todo-list-item--completed');
     }
+}
+
+function filterTasks(e) {
+    const selected = 'todo-list--'+e.target.value,
+          options = [...e.target.children];
+
+    options.forEach(option => {
+        todoList.classList.remove('todo-list--'+option.value);  
+    });
+
+    todoList.classList.add(selected);
 }
 
