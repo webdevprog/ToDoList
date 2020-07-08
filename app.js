@@ -11,10 +11,12 @@ todoList.addEventListener("click", deleteCheck);
 todoFilter.addEventListener("change", filterTasks);
 
 //Function
-function addTask(e, local = false, taskTitle) {
-    local ? '' : e.preventDefault();
-    let title =  local ? taskTitle : todoFormInput.value;
+function addTask(e, local = false, task) {
+    let idTask = (new Date()).getTime(),
+        title =  local ? task.title : todoFormInput.value;
 
+    !local ? e.preventDefault() : ''; 
+    
     if (title === '')
         return false;
 
@@ -27,7 +29,10 @@ function addTask(e, local = false, taskTitle) {
     newTask.innerText = title;
     taskDiv.appendChild(newTask);
     // Check local save or simple
-    !local ? saveLocalTask(title) : '';
+    if (!local) {
+        taskDiv.id = idTask;
+        saveLocalTask(title, idTask)
+    } 
     // CREATE TITLE TASK
     const completedBtn = document.createElement('div');
     completedBtn.classList.add('todo-list-item__btn-completed');
@@ -85,11 +90,13 @@ function checkLocalItem(name) {
     return items;
 }
 
-function saveLocalTask(task) {
+function saveLocalTask(titleTask, idTask) {
     tasks = checkLocalItem('tasks');
 
     let item = {
-        title: task
+        id: idTask,
+        title: titleTask,
+        completed: false
     }
     tasks.push(item);
     localStorage.setItem('tasks', JSON.stringify(tasks));
@@ -99,7 +106,7 @@ function getTasks() {
     tasks = checkLocalItem('tasks');
 
     tasks.forEach(task => {
-        addTask(false, true, task.title);
+        addTask(false, true, task);
     })
 }
 
