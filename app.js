@@ -5,24 +5,29 @@ const todoList = document.querySelector('.todo-list');
 const todoFilter = document.querySelector('.todo-form__select');
 
 //Events
+document.addEventListener("DOMContentLoaded", getTasks);
 todoFormBtn.addEventListener("click", addTask);
 todoList.addEventListener("click", deleteCheck);
 todoFilter.addEventListener("change", filterTasks);
 
 //Function
-function addTask(e) {
-    e.preventDefault();
-    if (todoFormInput.value === '') {
+function addTask(e, local = false, taskTitle) {
+    local ? '' : e.preventDefault();
+    let title =  local ? taskTitle : todoFormInput.value;
+
+    if (title === '')
         return false;
-    } 
+
     // CREATE ITEM TASK
     const taskDiv = document.createElement('li');
     taskDiv.classList.add('todo-list-item');
     // CREATE TITLE TASK
     const newTask = document.createElement('div');
     newTask.classList.add('todo-list-item__title');
-    newTask.innerText = todoFormInput.value;
+    newTask.innerText = title;
     taskDiv.appendChild(newTask);
+    // Check local save or simple
+    !local ? saveLocalTask(title) : '';
     // CREATE TITLE TASK
     const completedBtn = document.createElement('div');
     completedBtn.classList.add('todo-list-item__btn-completed');
@@ -33,10 +38,10 @@ function addTask(e) {
 
     taskDiv.appendChild(completedBtn);
     taskDiv.appendChild(trashBtn);
-    
+
     todoList.append(taskDiv);
 
-    todoFormInput.value = '';
+    !local ? todoFormInput.value = '' : '';
 }
 
 function deleteCheck(e) {
@@ -45,8 +50,8 @@ function deleteCheck(e) {
     if (item.classList[0] === 'todo-list-item__btn-trash') {
         const todo = item.parentElement;
         todo.classList.add('todo-list-item--remove');
-        todo.addEventListener("transitionend", function() {
-            todo.remove(); 
+        todo.addEventListener("transitionend", function () {
+            todo.remove();
         });
     }
     //complited task
@@ -57,13 +62,44 @@ function deleteCheck(e) {
 }
 
 function filterTasks(e) {
-    const selected = 'todo-list--'+e.target.value,
-          options = [...e.target.children];
-
+    const selected = 'todo-list--' + e.target.value,
+        options = [...e.target.children];
+    //remove classes
     options.forEach(option => {
-        todoList.classList.remove('todo-list--'+option.value);  
+        todoList.classList.remove('todo-list--' + option.value);
     });
-
+    //filter value added to class
     todoList.classList.add(selected);
+}
+
+
+function checkLocalItem(name) {
+    let items;
+
+    if (localStorage.getItem(name) === null) {
+        items = [];
+    } else {
+        items = JSON.parse(localStorage.getItem(name));
+    }
+
+    return items;
+}
+
+function saveLocalTask(task) {
+    tasks = checkLocalItem('tasks');
+
+    let item = {
+        title: task
+    }
+    tasks.push(item);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function getTasks() {
+    tasks = checkLocalItem('tasks');
+
+    tasks.forEach(task => {
+        addTask(false, true, task.title);
+    })
 }
 
