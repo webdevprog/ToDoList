@@ -12,8 +12,7 @@ todoFilter.addEventListener("change", filterTasks);
 
 //Function
 function addTask(e, local = false, task) {
-    let idTask = (new Date()).getTime(),
-        title =  local ? task.title : todoFormInput.value;
+    let title =  local ? task.title : todoFormInput.value;
 
     !local ? e.preventDefault() : ''; 
     
@@ -30,9 +29,13 @@ function addTask(e, local = false, task) {
     taskDiv.appendChild(newTask);
     // Check local save or simple
     if (!local) {
+        let idTask = (new Date()).getTime();
         taskDiv.id = idTask;
-        saveLocalTask(title, idTask)
-    } 
+        saveLocalTask(title, idTask);
+    } else {
+        taskDiv.id = task.id;
+        task.completed ? taskDiv.classList.add('todo-list-item--completed') : '';
+    }
     // CREATE TITLE TASK
     const completedBtn = document.createElement('div');
     completedBtn.classList.add('todo-list-item__btn-completed');
@@ -58,11 +61,14 @@ function deleteCheck(e) {
         todo.addEventListener("transitionend", function () {
             todo.remove();
         });
+        deleteTasks(parseInt(todo.id))
     }
     //complited task
     if (item.classList[0] === 'todo-list-item__btn-completed') {
         const todo = item.parentElement;
         todo.classList.add('todo-list-item--completed');
+
+        editTasks(parseInt(todo.id));
     }
 }
 
@@ -104,9 +110,17 @@ function saveLocalTask(titleTask, idTask) {
 
 function getTasks() {
     tasks = checkLocalItem('tasks');
+    tasks.forEach(task => {addTask(false, true, task)});
+}
 
-    tasks.forEach(task => {
-        addTask(false, true, task);
-    })
+function editTasks(id) {
+    tasks = checkLocalItem('tasks');
+    tasks.map(task => task.id === id ? task.completed = true : '');
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+
+function deleteTasks(id) {
+    tasks = checkLocalItem('tasks');
+    localStorage.setItem('tasks', JSON.stringify(tasks.filter(task => task.id !== id)));
 }
 
