@@ -5,6 +5,7 @@ const todoList = document.querySelector('.todo-list');
 
 //Events
 todoFormBtn.addEventListener("click", addTask);
+todoList.addEventListener("click", deleteTask);
 
 //Function
 function addTask(e) {
@@ -32,5 +33,13 @@ function addTask(e) {
     taskDiv.appendChild(trashBtn);
     
     todoList.append(taskDiv);
+}
+
+function deleteTask(e) {
+    let item = e.target;
+
+    if (item.classList[0] === 'todo-list-item__btn-trash') {
+        item.parentElement.remove();
+    }
 }
 
