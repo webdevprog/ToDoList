@@ -1,5 +1,5 @@
 $color-white: #fff;
-$color-complited: green;
+$color-completed: green;
 $color-trash: red;
 
 @mixin defaultFont {
@@ -76,7 +76,7 @@ body {
         }
 
         .fas {
-            color: $color-complited;
+            color: $color-completed;
             font-size: 25px;
         }
     }
@@ -93,11 +93,32 @@ body {
         width: 100%;
         max-width: 500px;
 
+        &--remove {
+            transform: scale(0);
+            opacity: 0;
+            transition: .5s;
+        }
+
+        &--completed {
+            .todo-list-item__title {
+                &:before {
+                    width: 100%;
+                }
+            }
+
+            .todo-list-item__btn-completed {
+                display: none;
+            }
+
+            opacity: .4;
+            transition: .5s;
+        }
+
         &:not(:last-child) {
             margin-bottom: 20px;
         }
 
-        &__btn-complited,
+        &__btn-completed,
         &__btn-trash {
             display: flex;
             align-items: center;
@@ -110,11 +131,11 @@ body {
 
             &:hover {
                 cursor: pointer;
-            }   
+            }
         }
 
-        &__btn-complited {
-            background-color: $color-complited;
+        &__btn-completed {
+            background-color: $color-completed;
         }
 
         &__btn-trash {
@@ -122,10 +143,22 @@ body {
         }
 
         &__title {
+            position: relative;
             flex-grow: 1;
             background-color: $color-white;
             padding: 10px 20px 10px 20px;
             font-size: 25px;
+
+            &:before {
+                content: '';
+                position: absolute;
+                @include alignVertical();
+                left: 0;
+                width: 0;
+                height: 3px;
+                background-color: $color-completed;
+                transition: .5s;
+            }
         }
     }
 }

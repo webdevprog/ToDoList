@@ -5,7 +5,7 @@ const todoList = document.querySelector('.todo-list');
 
 //Events
 todoFormBtn.addEventListener("click", addTask);
-todoList.addEventListener("click", deleteTask);
+todoList.addEventListener("click", deleteCheck);
 
 //Function
 function addTask(e) {
@@ -22,24 +22,35 @@ function addTask(e) {
     newTask.innerText = todoFormInput.value;
     taskDiv.appendChild(newTask);
     // CREATE TITLE TASK
-    const complitedBtn = document.createElement('div');
-    complitedBtn.classList.add('todo-list-item__btn-complited');
-    complitedBtn.innerHTML = '<i class="fas fa-check"></i>';
+    const completedBtn = document.createElement('div');
+    completedBtn.classList.add('todo-list-item__btn-completed');
+    completedBtn.innerHTML = '<i class="fas fa-check"></i>';
     const trashBtn = document.createElement('div');
     trashBtn.classList.add('todo-list-item__btn-trash');
     trashBtn.innerHTML = '<i class="fas fa-trash"></i>';
 
-    taskDiv.appendChild(complitedBtn);
+    taskDiv.appendChild(completedBtn);
     taskDiv.appendChild(trashBtn);
     
     todoList.append(taskDiv);
+
+    todoFormInput.value = '';
 }
 
-function deleteTask(e) {
-    let item = e.target;
-
+function deleteCheck(e) {
+    const item = e.target;
+    //Delete task
     if (item.classList[0] === 'todo-list-item__btn-trash') {
-        item.parentElement.remove();
+        const todo = item.parentElement;
+        todo.classList.add('todo-list-item--remove');
+        todo.addEventListener("transitionend", function() {
+            todo.remove(); 
+        });
+    }
+    //complited task
+    if (item.classList[0] === 'todo-list-item__btn-completed') {
+        const todo = item.parentElement;
+        todo.classList.add('todo-list-item--completed');
     }
 }
 
